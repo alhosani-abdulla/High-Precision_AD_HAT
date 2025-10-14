@@ -30,7 +30,40 @@
 #ifndef _ADS1263_H_
 #define _ADS1263_H_
 
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/DEV_Config.h"
+#include "DEV_Config.h"
+
+/******************************************************************************
+Highz Spectrometer Hardware Configuration
+
+Hardware Setup:
+- 3x ADS1263 ADCs stacked on Raspberry Pi
+- Each ADC has independent CS (Chip Select) and DRDY (Data Ready) pins
+- Shared SPI bus (MOSI, MISO, SCLK)
+- Hardware modifications allow addressing individual ADCs
+
+Channel Allocation:
+
+ADC #1 (Top):
+  - 7x Log detector channels (filter cavity outputs)
+  - 3x Device state signals (2-bit encoding, 8 possible states)
+  - Total: 10 channels in use
+
+ADC #2 (Middle):
+  - 7x Log detector channels
+  - 1x Power supply voltage monitor (voltage-divided, not yet implemented)
+  - Total: 8 channels (7 active + 1 planned)
+
+ADC #3 (Bottom):
+  - 7x Log detector channels
+  - Total: 7 channels in use
+
+Summary: 21 log detectors + 3 state signals + 1 power monitor = 25 total
+
+Code Modifications from Original Waveshare Library:
+- Added pin parameters to all functions for multi-ADC addressing
+- Removed ADC2, DAC, and RTD functionality (not needed for this application)
+- Simplified code to focus on ADC1 voltage readings only
+******************************************************************************/
 
 #define Positive_A6 1
 #define Negative_A7 0
@@ -182,11 +215,71 @@ typedef enum
     CMD_WREG2   = 0x00, // number of registers to write minus 1, 000n nnnn
 }ADS1263_CMD;
 
+/******************************************************************************
+Function Prototypes - Modified for Multi-ADC Support
+
+All functions now accept pin parameters to support addressing
+individual ADCs in a stacked configuration.
+******************************************************************************/
+
+/******************************************************************************
+function:   Get the state of the Data Ready pin for a specific ADC
+parameter:
+    DEV_CS_PIN: Chip select pin identifying which ADC to query
+Info:
+    Returns corresponding DRDY pin number
+******************************************************************************/
 int get_DRDYPIN(UWORD DEV_CS_PIN);
-//char *READ_CALIBRATION_STATE(void)
+
+/******************************************************************************
+function:   Initialize ADC1 on a specific ADS1263 chip
+parameter:
+    rate: Sampling rate (see ADS1263_DRATE enum)
+    DEV_CS_PIN: Chip select pin for target ADC
+Info:
+    Returns 0 on success, 1 on failure
+    Only ADC1 is used in Highz configuration. ADC2 functions removed.
+******************************************************************************/
 UBYTE ADS1263_init_ADC1(ADS1263_DRATE rate, UWORD DEV_CS_PIN);
+
+/******************************************************************************
+function:   Set ADC operating mode
+parameter:
+    Mode: Operating mode configuration (0=Single-ended, 1=Differential)
+Info:
+******************************************************************************/
 void ADS1263_SetMode(UBYTE Mode);
+
+/******************************************************************************
+function:   Read a single channel value from specified ADC
+parameter:
+    Channel: Input channel to read (0-10 for single-ended)
+    DEV_CS_PIN: Chip select pin for target ADC
+    DEV_DRDY_PIN: Data ready pin for target ADC
+Info:
+    Returns 32-bit ADC reading
+******************************************************************************/
 UDOUBLE ADS1263_GetChannalValue(UBYTE Channel, UWORD DEV_CS_PIN, UWORD DEV_DRDY_PIN);
+
+/******************************************************************************
+function:   Read multiple channels from specified ADC
+parameter:
+    List: Array of channel numbers to read
+    Value: Array to store readings (must be pre-allocated)
+    Number: Number of channels to read
+    DEV_CS_PIN: Chip select pin for target ADC
+    DEV_DRDY_PIN: Data ready pin for target ADC
+Info:
+    Used for sequential reading of log detectors on each ADC
+******************************************************************************/
 void ADS1263_GetAll(UBYTE *List, UDOUBLE *Value, int Number, UWORD DEV_CS_PIN, UWORD DEV_DRDY_PIN);
+
+/******************************************************************************
+function:   Reset a specific ADC via hardware reset pin
+parameter:
+    DEV_RST_PIN: Reset pin for target ADC
+Info:
+******************************************************************************/
 void ADS1263_reset(UWORD DEV_RST_PIN);
+
 #endif
