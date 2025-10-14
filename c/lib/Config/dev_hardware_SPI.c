@@ -28,7 +28,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/dev_hardware_SPI.h"
+#include "dev_hardware_SPI.h"
 
 
 #include <stdlib.h>

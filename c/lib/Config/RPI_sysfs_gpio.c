@@ -29,7 +29,7 @@
 #
 ******************************************************************************/
 /*
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/RPI_sysfs_gpio.h"
+#include "RPI_sysfs_gpio.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -39,7 +39,7 @@
 #include <unistd.h>
 */
 
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/RPI_sysfs_gpio.h"
+#include "RPI_sysfs_gpio.h"
 #include <gpiod.h>
 #include <stdio.h>
 #include <stdlib.h>

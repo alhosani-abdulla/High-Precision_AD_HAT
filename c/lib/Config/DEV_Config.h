@@ -38,9 +38,9 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/Debug.h"
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/RPI_sysfs_gpio.h"
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/dev_hardware_SPI.h"
+#include "Debug.h"
+#include "RPI_sysfs_gpio.h"
+#include "dev_hardware_SPI.h"
 
 #endif
 

@@ -28,7 +28,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/sysfs_gpio.h"
+#include "sysfs_gpio.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>

@@ -27,7 +27,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/DEV_Config.h"
+#include "DEV_Config.h"
 #include <fcntl.h>
 
 #define RPI
