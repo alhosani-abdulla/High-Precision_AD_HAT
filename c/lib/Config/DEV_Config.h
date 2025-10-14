@@ -38,27 +38,9 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include "Debug.h"
-
-#ifdef RPI
-    #ifdef USE_BCM2835_LIB
-        #include <bcm2835.h>
-    #elif USE_WIRINGPI_LIB
-        #include <wiringPi.h>
-        #include <wiringPiSPI.h>
-    #elif USE_DEV_LIB
-        #include "RPI_sysfs_gpio.h"
-        #include "dev_hardware_SPI.h"
-    #endif
-#endif
-
-#ifdef JETSON
-    #ifdef USE_DEV_LIB
-        #include "sysfs_gpio.h"    
-        #include "sysfs_software_spi.h"
-    #elif USE_HARDWARE_LIB
-        
-    #endif
+#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/Debug.h"
+#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/RPI_sysfs_gpio.h"
+#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/dev_hardware_SPI.h"
 
 #endif
 
@@ -72,9 +54,9 @@
 /**
  * GPIOI config
 **/
-extern int DEV_RST_PIN;
-extern int DEV_CS_PIN;
-extern int DEV_DRDY_PIN;
+//extern int DEV_RST_PIN;
+//extern int DEV_CS_PIN;
+//extern int DEV_DRDY_PIN;
 
 /*------------------------------------------------------------------------------------------------------*/
 void DEV_Digital_Write(UWORD Pin, UBYTE Value);
@@ -83,8 +65,7 @@ UBYTE DEV_Digital_Read(UWORD Pin);
 UBYTE DEV_SPI_WriteByte(UBYTE Value);
 UBYTE DEV_SPI_ReadByte(void);
 
-UBYTE DEV_Module_Init(void);
-void DEV_Module_Exit(void);
+UBYTE DEV_Module_Init(UWORD DEV_RST_PIN, UWORD DEV_CS_PIN, UWORD DEV_DRDY_PIN);
+void DEV_Module_Exit(UWORD DEV_RST_PIN, UWORD DEV_CS_PIN);
 
 void DEV_Delay_ms(UDOUBLE xms);
-#endif

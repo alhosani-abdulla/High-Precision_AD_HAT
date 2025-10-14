@@ -30,7 +30,7 @@
 #ifndef _ADS1263_H_
 #define _ADS1263_H_
 
-#include "DEV_Config.h"
+#include "/home/peterson/High-Pricision_AD_HAT_1/c/lib/Config/DEV_Config.h"
 
 #define Positive_A6 1
 #define Negative_A7 0
@@ -182,12 +182,11 @@ typedef enum
     CMD_WREG2   = 0x00, // number of registers to write minus 1, 000n nnnn
 }ADS1263_CMD;
 
-UBYTE ADS1263_init_ADC1(ADS1263_DRATE rate);
-UBYTE ADS1263_init_ADC2(ADS1263_ADC2_DRATE rate);
+int get_DRDYPIN(UWORD DEV_CS_PIN);
+//char *READ_CALIBRATION_STATE(void)
+UBYTE ADS1263_init_ADC1(ADS1263_DRATE rate, UWORD DEV_CS_PIN);
 void ADS1263_SetMode(UBYTE Mode);
-UDOUBLE ADS1263_GetChannalValue(UBYTE Channel);
-void ADS1263_GetAll(UBYTE *List, UDOUBLE *Value, int Number);
-void ADS1263_GetAll_ADC2(UDOUBLE *ADC_Value);
-UDOUBLE ADS1263_RTD(ADS1263_DELAY delay, ADS1263_GAIN gain, ADS1263_DRATE drate);
-void ADS1263_DAC(ADS1263_DAC_VOLT volt, UBYTE isPositive, UBYTE isClose);
+UDOUBLE ADS1263_GetChannalValue(UBYTE Channel, UWORD DEV_CS_PIN, UWORD DEV_DRDY_PIN);
+void ADS1263_GetAll(UBYTE *List, UDOUBLE *Value, int Number, UWORD DEV_CS_PIN, UWORD DEV_DRDY_PIN);
+void ADS1263_reset(UWORD DEV_RST_PIN);
 #endif
