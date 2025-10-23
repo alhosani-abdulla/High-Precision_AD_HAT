@@ -653,18 +653,7 @@ void ADS1263_GetAll(UBYTE *List, UDOUBLE *Value, int Number, UWORD DEV_CS_PIN, U
     UWORD REF = 3.27;
     
     start_time = clock();
-    for(int i = 0; i<Number; i++) {
-        Value[i] = ADS1263_GetChannalValue(List[i], DEV_CS_PIN, DEV_DRDY_PIN);
-        //printf("VALUE: %u\n", Value[i]);
-        /*
-        if ((Value[i] >> 31) == 1){
-            Value[i] = 3.27 * 2 - Value[i]/2147483648.0 * 3.27;
-        } else {
-            
-            Value[i] = Value[i]/2147483647.8 * REF;
-        }
-        */
-    }
+    for(int i = 0; i<Number; i++) {Value[i] = ADS1263_GetChannalValue(List[i], DEV_CS_PIN, DEV_DRDY_PIN);}
     end_time = clock();
         
     cpu_time_used = ((double) (end_time-start_time)) / CLOCKS_PER_SEC;
